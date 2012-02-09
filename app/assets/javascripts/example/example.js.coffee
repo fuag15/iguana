@@ -28,7 +28,10 @@ window.iguana = window.iguana or {}
     window.iguana.example.camera.position.z = 300
     window.iguana.example.renderer.setSize window.iguana.example.width, window.iguana.example.height
     window.iguana.example.container.append window.iguana.example.renderer.domElement
-    
+  
+  example.add_camera = ->
+    window.iguana.example.scene.add window.iguana.example.camera
+  
   example.add_sphere = ->
     sphereMaterial = new window.THREE.MeshLambertMaterial color: 0xCC0000
     radius = 50
@@ -49,6 +52,7 @@ window.iguana = window.iguana or {}
     
   example.init = ->
     window.iguana.example.get_context()
+    window.iguana.example.add_camera()
     window.iguana.example.add_sphere()
     window.iguana.example.add_light()
     window.iguana.example.render()
