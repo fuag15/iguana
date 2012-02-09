@@ -1,0 +1,2 @@
+$ ->
+  window.iguana.example.init()
