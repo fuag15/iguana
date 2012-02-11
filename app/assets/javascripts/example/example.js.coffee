@@ -1,59 +1,35 @@
 window.iguana = window.iguana or {}
 ((example, $) ->
-  example.width = undefined
-  example.hieght = undefined
-  example.view_angle = undefined
-  example.aspect = undefined
-  example.near = undefined
-  example.far = undefined
-  example.container = undefined
-  example.renderer = undefined
-  example.camera = undefined 
+  example.camera = undefined
   example.scene = undefined
+  example.renderer = undefined
+  example.geometry = undefined
+  example.material = undefined
+  example.mesh = undefined
   
-  example.get_context = ->
-    window.iguana.example.width = 400
-    window.iguana.example.hieght = 300
-    window.iguana.example.view_angle = 45
-    window.iguana.example.aspect = window.iguana.example.width / window.iguana.example.height
-    window.iguana.example.near = 0.1
-    window.iguana.example.far = 10000
-    window.iguana.example.container = $ '#three.example'
-    window.iguana.example.renderer = new window.THREE.WebGLRenderer()
-    window.iguana.example.camera = new window.THREE.PerspectiveCamera window.iguana.example.view_angle, 
-                                                                                                                                                 window.iguana.example.aspect, 
-                                                                                                                                                 window.iguana.example.near, 
-                                                                                                                                                 window.iguana.example.far
+  example.init = ->
     window.iguana.example.scene = new window.THREE.Scene()
-    window.iguana.example.camera.position.z = 300
-    window.iguana.example.renderer.setSize window.iguana.example.width, window.iguana.example.height
-    window.iguana.example.container.append window.iguana.example.renderer.domElement
-  
-  example.add_camera = ->
+    window.iguana.example.camera = new window.THREE.PerspectiveCamera 75,1100 / 900, 1, 10000
+    window.iguana.example.camera.position.z = 1000
     window.iguana.example.scene.add window.iguana.example.camera
+    window.iguana.example.geometry = new window.THREE.CubeGeometry 200, 200, 200
+    window.iguana.example.material = new window.THREE.MeshBasicMaterial color: 0xff0000, wireframe: true
+    window.iguana.example.mesh = new window.THREE.Mesh window.iguana.example.geometry, window.iguana.example.material
+    window.iguana.example.scene.add window.iguana.example.mesh
+    window.iguana.example.renderer = new window.THREE.WebGLRenderer()
+    window.iguana.example.renderer.setSize 1100, 900
+    $('.holder').append window.iguana.example.renderer.domElement
   
-  example.add_sphere = ->
-    sphereMaterial = new window.THREE.MeshLambertMaterial color: 0xCC0000
-    radius = 50
-    segments = 16
-    rings = 16
-    sphere = new window.THREE.Mesh new window.THREE.SphereGeometry( radius, segments, rings), sphereMaterial
-    window.iguana.example.scene.add sphere
-    
-  example.add_light = ->
-    pointLight = new window.THREE.PointLight 0xFFFFFF
-    pointLight.position.x = 10
-    pointLight.position.y = 50
-    pointLight.position.z = 130
-    window.iguana.example.scene.add pointLight
+  example.animate = ->
+    window.requestAnimationFrame window.iguana.example.animate
+    window.iguana.example.render()
     
   example.render = ->
+    window.iguana.example.mesh.rotation.x += 0.01
+    window.iguana.example.mesh.rotation.y += 0.02
     window.iguana.example.renderer.render window.iguana.example.scene, window.iguana.example.camera
     
-  example.init = ->
-    window.iguana.example.get_context()
-    window.iguana.example.add_camera()
-    window.iguana.example.add_sphere()
-    window.iguana.example.add_light()
-    window.iguana.example.render()
+  example.set_up = ->
+    window.iguana.example.init()
+    window.iguana.example.animate()
 ) window.iguana.example = window.iguana.example or {}, jQuery

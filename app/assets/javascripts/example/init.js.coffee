@@ -1,2 +1,2 @@
 $ ->
-  window.iguana.example.init()
+  window.iguana.example.set_up()
